@@ -91,7 +91,18 @@ public class ProvinceServiceTest {
     assertThatIllegalArgumentException().isThrownBy(() -> provinceService.getCoordinates(provinceName));
   }
 
-  private void mockGetProvinceRequest(String provinceName,ResponseCreator requestResponse) {
+  @Test
+  void getCoordinates_withEmptyProvinceName_throwException() {
+    String provinceName = "";
+    ResponseCreator requestResponse = MockRestResponseCreators.withBadRequest().contentType(MediaType.APPLICATION_JSON);
+    mockGetProvinceRequest(provinceName, requestResponse);
+
+    assertThatIllegalArgumentException()
+            .isThrownBy(() -> provinceService.getCoordinates(provinceName))
+            .withMessage("The province name do not have contents.");
+  }
+
+  private void mockGetProvinceRequest(String provinceName, ResponseCreator requestResponse) {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("nombre", provinceName);
     URI provincesUri = UriComponentsBuilder.fromUriString(getProvinceUrl).buildAndExpand(uriVariables).toUri();

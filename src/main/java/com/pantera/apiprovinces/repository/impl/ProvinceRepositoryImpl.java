@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -33,9 +34,14 @@ public class ProvinceRepositoryImpl implements ProvinceRepository {
     URI uri = createGetProvincesUri(provinceName);
     RequestEntity requestEntity = new RequestEntity<>(HttpMethod.GET, uri);
 
-    ResponseEntity<ProvincesResponseVo> responseEntity = restTemplate.exchange(requestEntity, ProvincesResponseVo.class);
-    List<ProvinceVo> provincesVo = responseEntity.getBody().getProvincias();
-    return transformToProvinces(provincesVo);
+    try {
+      ResponseEntity<ProvincesResponseVo> responseEntity = restTemplate.exchange(requestEntity, ProvincesResponseVo.class);
+      List<ProvinceVo> provincesVo = responseEntity.getBody().getProvincias();
+      return transformToProvinces(provincesVo);
+    } catch (HttpClientErrorException errorException) {
+      throw new IllegalArgumentException("The province name do not have contents.", errorException);
+    }
+
   }
 
   private List<Province> transformToProvinces(List<ProvinceVo> provincesVo) {
