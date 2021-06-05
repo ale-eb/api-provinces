@@ -2,7 +2,9 @@ package com.pantera.apiprovinces.repository;
 
 import com.pantera.apiprovinces.vo.CentroideVo;
 
+import java.util.List;
+
 public interface ProvinceRepository {
 
-  CentroideVo getCoordinates(String provinceName);
+  List<CentroideVo> getCoordinates(String provinceName);
 }

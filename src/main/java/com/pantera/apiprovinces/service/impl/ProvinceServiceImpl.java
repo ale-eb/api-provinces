@@ -6,6 +6,8 @@ import com.pantera.apiprovinces.vo.CentroideVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProvinceServiceImpl implements ProvinceService {
@@ -13,7 +15,7 @@ public class ProvinceServiceImpl implements ProvinceService {
   private final ProvinceRepository provinceRepository;
 
   @Override
-  public CentroideVo getCoordinates(String provinceName) {
+  public List<CentroideVo> getCoordinates(String provinceName) {
     return provinceRepository.getCoordinates(provinceName);
   }
 }

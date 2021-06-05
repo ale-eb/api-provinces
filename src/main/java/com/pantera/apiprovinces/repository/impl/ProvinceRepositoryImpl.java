@@ -14,8 +14,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,22 +30,22 @@ public class ProvinceRepositoryImpl implements ProvinceRepository {
   private final RestTemplate restTemplate;
 
   @Override
-  public CentroideVo getCoordinates(String provinceName) {
-    URI uri = createGetProvincesUri();
+  public List<CentroideVo> getCoordinates(String provinceName) {
+    URI uri = createGetProvincesUri(provinceName);
     RequestEntity requestEntity = new RequestEntity<>(HttpMethod.GET, uri);
 
     ResponseEntity<ProvincesResponseVo> responseEntity = restTemplate.exchange(requestEntity, ProvincesResponseVo.class);
     List<ProvinceVo> provinces = responseEntity.getBody().getProvincias();
-    Optional<ProvinceVo> optionalProvinceVo = provinces.stream()
-            .filter(provinceVo -> provinceVo.getNombre().equals(provinceName)).findFirst();
 
-    return optionalProvinceVo.get().getCentroide();
+    return provinces.stream().map(ProvinceVo::getCentroide).collect(Collectors.toList());
   }
 
-  private URI createGetProvincesUri() {
+  private URI createGetProvincesUri(String provinceName) {
+    Map<String, String> uriVaribales = new HashMap<>();
+    uriVaribales.put("nombre", provinceName);
     return UriComponentsBuilder
             .fromHttpUrl(getProvincesUrl)
-            .build()
+            .buildAndExpand(uriVaribales)
             .toUri();
   }
 }

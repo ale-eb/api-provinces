@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,21 +41,23 @@ public class ProvinceServiceTest {
   private MockRestServiceServer mockRestServiceServer;
 
   @Test
-  void getCoordinates_withExistingProvinceName_returnCoordinates() {
+  void getCoordinates_withExistingProvinceName_returnCoordinatesList() {
     String responseApi = getFileContent("api-responses/api-provinces-response.json");
-    String provinceName = "Buenos Aires";
+    String provinceName = "Tucuman";
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
-    mockGetProvinceRequest(requestResponse);
+    mockGetProvinceRequest(provinceName, requestResponse);
 
-    CentroideVo coordinates = provinceService.getCoordinates(provinceName);
+    List<CentroideVo> coordinatesList = provinceService.getCoordinates(provinceName);
 
     mockRestServiceServer.verify();
-    assertThat(coordinates.getLat()).isEqualTo(-36.6769415180527);
-    assertThat(coordinates.getLon()).isEqualTo(-60.5588319815719);
+    assertThat(coordinatesList.get(0).getLat()).isEqualTo(-26.9478001830786);
+    assertThat(coordinatesList.get(0).getLon()).isEqualTo(-65.3647579441481);
   }
 
-  private void mockGetProvinceRequest(ResponseCreator requestResponse) {
-    URI provincesUri = UriComponentsBuilder.fromUriString(getProvinceUrl).build().toUri();
+  private void mockGetProvinceRequest(String provinceName,ResponseCreator requestResponse) {
+    Map<String, String> uriVariables = new HashMap<>();
+    uriVariables.put("nombre", provinceName);
+    URI provincesUri = UriComponentsBuilder.fromUriString(getProvinceUrl).buildAndExpand(uriVariables).toUri();
     mockRestServiceServer.expect(MockRestRequestMatchers.requestTo(provincesUri))
             .andExpect(MockRestRequestMatchers.method(HttpMethod.GET))
             .andRespond(requestResponse);
