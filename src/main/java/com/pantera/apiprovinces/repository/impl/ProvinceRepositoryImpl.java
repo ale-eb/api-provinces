@@ -2,7 +2,6 @@ package com.pantera.apiprovinces.repository.impl;
 
 import com.pantera.apiprovinces.domain.Province;
 import com.pantera.apiprovinces.repository.ProvinceRepository;
-import com.pantera.apiprovinces.vo.CentroideVo;
 import com.pantera.apiprovinces.vo.ProvinceVo;
 import com.pantera.apiprovinces.vo.ProvincesResponseVo;
 import lombok.RequiredArgsConstructor;

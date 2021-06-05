@@ -2,7 +2,6 @@ package com.pantera.apiprovinces.controller.rest;
 
 import com.pantera.apiprovinces.domain.Province;
 import com.pantera.apiprovinces.service.ProvinceService;
-import com.pantera.apiprovinces.vo.CentroideVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

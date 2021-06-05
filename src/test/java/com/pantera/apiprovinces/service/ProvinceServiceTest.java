@@ -1,7 +1,6 @@
 package com.pantera.apiprovinces.service;
 
 import com.pantera.apiprovinces.domain.Province;
-import com.pantera.apiprovinces.vo.CentroideVo;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
