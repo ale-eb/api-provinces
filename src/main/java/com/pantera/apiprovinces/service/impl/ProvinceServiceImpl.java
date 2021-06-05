@@ -5,6 +5,7 @@ import com.pantera.apiprovinces.service.ProvinceService;
 import com.pantera.apiprovinces.vo.CentroideVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class ProvinceServiceImpl implements ProvinceService {
 
   @Override
   public List<CentroideVo> getCoordinates(String provinceName) {
+    Assert.notNull(provinceName, "The province name cannot be null");
     return provinceRepository.getCoordinates(provinceName);
   }
 }

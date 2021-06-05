@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @SpringBootTest
 @AutoConfigureMockRestServiceServer
@@ -41,7 +42,7 @@ public class ProvinceServiceTest {
 
   @Test
   void getCoordinates_withExistingProvinceName_returnCoordinatesList() {
-    String responseApi = getFileContent("api-responses/api-provinces-response.json");
+    String responseApi = getFileContent("api-gob-responses/api-gob-response-with-one-province.json");
     String provinceName = "Tucuman";
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
     mockGetProvinceRequest(provinceName, requestResponse);
@@ -51,6 +52,42 @@ public class ProvinceServiceTest {
     mockRestServiceServer.verify();
     assertThat(coordinatesList.get(0).getLat()).isEqualTo(-26.9478001830786);
     assertThat(coordinatesList.get(0).getLon()).isEqualTo(-65.3647579441481);
+  }
+
+  @Test
+  void getCoordinates_withAmbiguousProvinceName_returnCoordinatesListWithTwoResults() {
+    String responseApi = getFileContent("api-gob-responses/api-gob-response-with-two-provinces.json");
+    String provinceName = "Buenos Aires";
+    ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
+    mockGetProvinceRequest(provinceName, requestResponse);
+
+    List<CentroideVo> coordinatesList = provinceService.getCoordinates(provinceName);
+
+    mockRestServiceServer.verify();
+    assertThat(coordinatesList.size()).isEqualTo(2);
+    assertThat(coordinatesList.get(0).getLat()).isEqualTo(-36.6769415180527);
+    assertThat(coordinatesList.get(0).getLon()).isEqualTo(-60.5588319815719);
+    assertThat(coordinatesList.get(1).getLat()).isEqualTo(-34.6144934119689);
+    assertThat(coordinatesList.get(1).getLon()).isEqualTo(-58.4458563545429);
+  }
+
+  @Test
+  void getCoordinates_withInvalidProvinceName_returnEmptyCoordinatesList() {
+    String responseApi = getFileContent("api-gob-responses/api-gob-response-with-zero-provinces.json");
+    String provinceName = "123456";
+    ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
+    mockGetProvinceRequest(provinceName, requestResponse);
+
+    List<CentroideVo> coordinatesList = provinceService.getCoordinates(provinceName);
+
+    assertThat(coordinatesList.isEmpty()).isTrue();
+  }
+
+  @Test
+  void getCoordinates_withNullProvinceName_throwIllegalArgumentException() {
+    String provinceName = null;
+
+    assertThatIllegalArgumentException().isThrownBy(() -> provinceService.getCoordinates(provinceName));
   }
 
   private void mockGetProvinceRequest(String provinceName,ResponseCreator requestResponse) {
