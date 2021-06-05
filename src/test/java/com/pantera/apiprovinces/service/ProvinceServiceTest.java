@@ -1,5 +1,6 @@
 package com.pantera.apiprovinces.service;
 
+import com.pantera.apiprovinces.domain.Province;
 import com.pantera.apiprovinces.vo.CentroideVo;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -47,12 +48,13 @@ public class ProvinceServiceTest {
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
     mockGetProvinceRequest(provinceName, requestResponse);
 
-    List<CentroideVo> coordinatesList = provinceService.getCoordinates(provinceName);
+    List<Province> provinces = provinceService.getCoordinates(provinceName);
 
     mockRestServiceServer.verify();
-    assertThat(coordinatesList.get(0).getLat()).isEqualTo(-26.9478001830786);
-    assertThat(coordinatesList.get(0).getLon()).isEqualTo(-65.3647579441481);
+    assertThat(provinces.get(0).getLatitude()).isEqualTo(-26.9478001830786);
+    assertThat(provinces.get(0).getLongitude()).isEqualTo(-65.3647579441481);
   }
+
 
   @Test
   void getCoordinates_withAmbiguousProvinceName_returnCoordinatesListWithTwoResults() {
@@ -61,14 +63,14 @@ public class ProvinceServiceTest {
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
     mockGetProvinceRequest(provinceName, requestResponse);
 
-    List<CentroideVo> coordinatesList = provinceService.getCoordinates(provinceName);
+    List<Province> provinces = provinceService.getCoordinates(provinceName);
 
     mockRestServiceServer.verify();
-    assertThat(coordinatesList.size()).isEqualTo(2);
-    assertThat(coordinatesList.get(0).getLat()).isEqualTo(-36.6769415180527);
-    assertThat(coordinatesList.get(0).getLon()).isEqualTo(-60.5588319815719);
-    assertThat(coordinatesList.get(1).getLat()).isEqualTo(-34.6144934119689);
-    assertThat(coordinatesList.get(1).getLon()).isEqualTo(-58.4458563545429);
+    assertThat(provinces.size()).isEqualTo(2);
+    assertThat(provinces.get(0).getLatitude()).isEqualTo(-36.6769415180527);
+    assertThat(provinces.get(0).getLongitude()).isEqualTo(-60.5588319815719);
+    assertThat(provinces.get(1).getLatitude()).isEqualTo(-34.6144934119689);
+    assertThat(provinces.get(1).getLongitude()).isEqualTo(-58.4458563545429);
   }
 
   @Test
@@ -78,9 +80,9 @@ public class ProvinceServiceTest {
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
     mockGetProvinceRequest(provinceName, requestResponse);
 
-    List<CentroideVo> coordinatesList = provinceService.getCoordinates(provinceName);
+    List<Province> provinces = provinceService.getCoordinates(provinceName);
 
-    assertThat(coordinatesList.isEmpty()).isTrue();
+    assertThat(provinces.isEmpty()).isTrue();
   }
 
   @Test

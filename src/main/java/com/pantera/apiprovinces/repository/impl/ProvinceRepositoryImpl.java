@@ -1,5 +1,6 @@
 package com.pantera.apiprovinces.repository.impl;
 
+import com.pantera.apiprovinces.domain.Province;
 import com.pantera.apiprovinces.repository.ProvinceRepository;
 import com.pantera.apiprovinces.vo.CentroideVo;
 import com.pantera.apiprovinces.vo.ProvinceVo;
@@ -29,14 +30,19 @@ public class ProvinceRepositoryImpl implements ProvinceRepository {
   private final RestTemplate restTemplate;
 
   @Override
-  public List<CentroideVo> getCoordinates(String provinceName) {
+  public List<Province> getCoordinates(String provinceName) {
     URI uri = createGetProvincesUri(provinceName);
     RequestEntity requestEntity = new RequestEntity<>(HttpMethod.GET, uri);
 
     ResponseEntity<ProvincesResponseVo> responseEntity = restTemplate.exchange(requestEntity, ProvincesResponseVo.class);
-    List<ProvinceVo> provinces = responseEntity.getBody().getProvincias();
-
-    return provinces.stream().map(ProvinceVo::getCentroide).collect(Collectors.toList());
+    List<ProvinceVo> provincesVo = responseEntity.getBody().getProvincias();
+    return provincesVo.stream().map(provinceVo -> {
+      Province province = new Province();
+      province.setName(provinceVo.getNombre());
+      province.setLatitude(provinceVo.getCentroide().getLat());
+      province.setLongitude(provinceVo.getCentroide().getLon());
+      return province;
+    }).collect(Collectors.toList());
   }
 
   private URI createGetProvincesUri(String provinceName) {

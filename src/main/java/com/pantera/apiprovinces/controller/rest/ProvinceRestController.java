@@ -1,5 +1,6 @@
 package com.pantera.apiprovinces.controller.rest;
 
+import com.pantera.apiprovinces.domain.Province;
 import com.pantera.apiprovinces.service.ProvinceService;
 import com.pantera.apiprovinces.vo.CentroideVo;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class ProvinceRestController {
   private final ProvinceService provinceService;
 
   @GetMapping("/coordinates")
-  List<CentroideVo> getCoordinates(@RequestParam String provinceName) {
+  List<Province> getCoordinates(@RequestParam String provinceName) {
     log.info("Find coordinates to: {}", provinceName);
     return provinceService.getCoordinates(provinceName);
   }
