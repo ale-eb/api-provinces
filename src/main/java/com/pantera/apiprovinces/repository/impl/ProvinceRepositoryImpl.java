@@ -36,6 +36,10 @@ public class ProvinceRepositoryImpl implements ProvinceRepository {
 
     ResponseEntity<ProvincesResponseVo> responseEntity = restTemplate.exchange(requestEntity, ProvincesResponseVo.class);
     List<ProvinceVo> provincesVo = responseEntity.getBody().getProvincias();
+    return transformToProvinces(provincesVo);
+  }
+
+  private List<Province> transformToProvinces(List<ProvinceVo> provincesVo) {
     return provincesVo.stream().map(provinceVo -> {
       Province province = new Province();
       province.setName(provinceVo.getNombre());
