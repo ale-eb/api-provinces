@@ -50,6 +50,7 @@ public class ProvinceServiceTest {
     List<Province> provinces = provinceService.getCoordinates(provinceName);
 
     mockRestServiceServer.verify();
+    assertThat(provinces.get(0).getName()).isEqualTo("Tucumán");
     assertThat(provinces.get(0).getLatitude()).isEqualTo(-26.9478001830786);
     assertThat(provinces.get(0).getLongitude()).isEqualTo(-65.3647579441481);
   }
@@ -66,8 +67,10 @@ public class ProvinceServiceTest {
 
     mockRestServiceServer.verify();
     assertThat(provinces.size()).isEqualTo(2);
+    assertThat(provinces.get(0).getName()).isEqualTo("Buenos Aires");
     assertThat(provinces.get(0).getLatitude()).isEqualTo(-36.6769415180527);
     assertThat(provinces.get(0).getLongitude()).isEqualTo(-60.5588319815719);
+    assertThat(provinces.get(1).getName()).isEqualTo("Ciudad Autónoma de Buenos Aires");
     assertThat(provinces.get(1).getLatitude()).isEqualTo(-34.6144934119689);
     assertThat(provinces.get(1).getLongitude()).isEqualTo(-58.4458563545429);
   }
