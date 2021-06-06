@@ -1,2 +1,2 @@
 # api-provinces
-API RESTfull para obtener las coordenadas de una provincia Argentina
+API RESTful para obtener las coordenadas de una provincia Argentina

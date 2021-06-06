@@ -1,0 +1,26 @@
+{
+  "cantidad": 2,
+  "inicio": 0,
+  "parametros": {
+    "nombre": "buenos aires"
+  },
+  "provincias": [
+    {
+      "centroide": {
+        "lat": -36.6769415180527,
+        "lon": -60.5588319815719
+      },
+      "id": "06",
+      "nombre": "Buenos Aires"
+    },
+    {
+      "centroide": {
+        "lat": -34.6144934119689,
+        "lon": -58.4458563545429
+      },
+      "id": "02",
+      "nombre": "Ciudad Autónoma de Buenos Aires"
+    }
+  ],
+  "total": 2
+}

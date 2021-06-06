@@ -1,0 +1,18 @@
+{
+  "cantidad": 1,
+  "inicio": 0,
+  "parametros": {
+    "nombre": "tucuman"
+  },
+  "provincias": [
+    {
+      "centroide": {
+        "lat": -26.9478001830786,
+        "lon": -65.3647579441481
+      },
+      "id": "90",
+      "nombre": "Tucumán"
+    }
+  ],
+  "total": 1
+}
