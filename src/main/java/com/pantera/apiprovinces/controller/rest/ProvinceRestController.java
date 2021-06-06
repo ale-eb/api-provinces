@@ -21,7 +21,7 @@ public class ProvinceRestController {
 
   @GetMapping("/coordinates")
   List<Province> getCoordinates(@RequestParam String provinceName) {
-    log.info("Find coordinates to: {}", provinceName);
+    log.info("Find coordinates for: {}", provinceName);
     return provinceService.getCoordinates(provinceName);
   }
 }
