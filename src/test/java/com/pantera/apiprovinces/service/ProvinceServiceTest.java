@@ -41,7 +41,7 @@ public class ProvinceServiceTest {
   private MockRestServiceServer mockRestServiceServer;
 
   @Test
-  void getCoordinates_withExistingProvinceName_returnCoordinatesList() {
+  void getCoordinates_withExistingProvinceName_returnProvinces() {
     String responseApi = getFileContent("api-gob-responses/api-gob-response-with-one-province.json");
     String provinceName = "Tucuman";
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
@@ -56,7 +56,7 @@ public class ProvinceServiceTest {
 
 
   @Test
-  void getCoordinates_withAmbiguousProvinceName_returnCoordinatesListWithTwoResults() {
+  void getCoordinates_withAmbiguousProvinceName_returnProvincesListWithTwoResults() {
     String responseApi = getFileContent("api-gob-responses/api-gob-response-with-two-provinces.json");
     String provinceName = "Buenos Aires";
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
@@ -73,7 +73,7 @@ public class ProvinceServiceTest {
   }
 
   @Test
-  void getCoordinates_withInvalidProvinceName_returnEmptyCoordinatesList() {
+  void getCoordinates_withInvalidProvinceName_returnEmptyProvincesList() {
     String responseApi = getFileContent("api-gob-responses/api-gob-response-with-zero-provinces.json");
     String provinceName = "123456";
     ResponseCreator requestResponse = MockRestResponseCreators.withSuccess(responseApi, MediaType.APPLICATION_JSON);
@@ -92,7 +92,7 @@ public class ProvinceServiceTest {
   }
 
   @Test
-  void getCoordinates_withEmptyProvinceName_throwException() {
+  void getCoordinates_withEmptyProvinceName_throwIllegalArgumentException() {
     String provinceName = "";
     ResponseCreator requestResponse = MockRestResponseCreators.withBadRequest().contentType(MediaType.APPLICATION_JSON);
     mockGetProvinceRequest(provinceName, requestResponse);
