@@ -55,11 +55,11 @@ public class ProvinceRepositoryImpl implements ProvinceRepository {
   }
 
   private URI createGetProvincesUri(String provinceName) {
-    Map<String, String> uriVaribales = new HashMap<>();
-    uriVaribales.put("nombre", provinceName);
+    Map<String, String> uriVariables = new HashMap<>();
+    uriVariables.put("nombre", provinceName);
     return UriComponentsBuilder
             .fromHttpUrl(getProvincesUrl)
-            .buildAndExpand(uriVaribales)
+            .buildAndExpand(uriVariables)
             .toUri();
   }
 }
